@@ -1,0 +1,3 @@
+archer
+  win: a b
+  loss: c d
