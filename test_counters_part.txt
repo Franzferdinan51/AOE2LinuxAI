@@ -1,0 +1,8 @@
+archer
+  win: a, b
+  loss: c
+  note: foo
+
+cavalry
+  win: archer, siege, monk
+  loss: spearman
