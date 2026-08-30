@@ -1,2 +1,1 @@
-First entry in counters.json has archer vs spearman counters.
-This file is used by the game knowledge base.
+x

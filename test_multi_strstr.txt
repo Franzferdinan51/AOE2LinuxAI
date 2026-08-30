@@ -1,3 +1,1 @@
-Multi-line:
-a b
-Another line
+x
