@@ -1,0 +1,4 @@
+archer
+  win: infantry, spearman
+  loss: skirmisher, mangonel, cavalry, eagle_warrior
+  note: Kite infantry; vulnerable to high pierce armor units
