@@ -1,0 +1,132 @@
+## Hotkey Reference
+
+### Navigation & Selection
+- NEVER press Escape: with nothing to cancel it OPENS the game menu and pauses the game. To clear an open build menu or placement ghost, press H (select TC) instead.
+- Coordinates go stale when the camera moves: after pressing `.`, `,` or H, never click x/y computed from the previous frame — name a target_class or target_id instead.
+- H: Go to Town Center
+- .: Select next idle villager (moves camera)
+- ,: Select next idle military unit (moves camera)
+- Space: Go to selected object
+- Home: Go to last notification
+- Shift-.: Select ALL idle villagers
+- Alt-,: Select ALL idle military units
+- Ctrl-B: Go to Barracks
+- Ctrl-A: Go to Archery Range
+- Ctrl-L: Go to Stable
+- Ctrl-V: Go to Castle
+- Ctrl-Z: Go to Lumber Camp
+- Ctrl-I: Go to Mill
+- Ctrl-G: Go to Mining Camp
+- Ctrl-M: Go to Market
+- Ctrl-Y: Go to Monastery
+- Ctrl-S: Go to Blacksmith
+
+### Town Center (after pressing H)
+- Q: Queue Villager (50 food)
+- B: Ring Town Bell (garrison all nearby villagers)
+- Z: Research Age Up
+- A: Research Loom (50 gold)
+- S: Research Wheelbarrow / Hand Cart (175 food + 50 wood, Feudal)
+- V: All Back to Work (ungarrison)
+- F: Go Back to Work
+
+### Economy technologies
+
+Prefer the `research` composite over these presses: it goes to the building, presses the key, and REPORTS BACK whether the cost actually left your resources.
+
+Each one needs its building STANDING — the go-to key selects nothing otherwise.
+
+| tech | building | go to | key | cost |
+| --- | --- | --- | --- | --- |
+| castle_age | Town Center | H | Z | 800 food + 200 gold |
+| loom | Town Center | H | A | 50 gold |
+| wheelbarrow | Town Center | H | S | 175 food + 50 wood |
+| horse_collar | Mill | Ctrl-I | Q | 75 food + 75 wood |
+| double_bit_axe | Lumber Camp | Ctrl-Z | Q | 100 food + 50 wood |
+| gold_mining | Mining Camp | Ctrl-G | Q | 100 food + 75 wood |
+
+castle_age also needs 2 Feudal-Age buildings standing.
+
+### Villager Build — Economic (select villager, press Q)
+- Q: House (25 wood)
+- W: Mill (100 wood)
+- E: Mining Camp (100 wood)
+- R: Lumber Camp (100 wood)
+- A: Farm (60 wood) — ONLY when a Mill exists; without a Mill this slot is the OUTPOST
+- T: Dock (150 wood)
+- S: Blacksmith (150 wood)
+
+### Villager Build — Military (select villager, press W)
+- Q: Barracks (175 wood)
+- W: Archery Range (175 wood)
+- E: Stable (175 wood)
+- R: Siege Workshop (200 wood)
+- F: Monastery (175 wood)
+
+### Villager Build — More Buildings (select villager, press V)
+- D: Market (175 wood)
+- F: Tower (125 wood, 25 stone)
+- S: Palisade Wall
+- D: Stone Wall
+- Z: Town Center (275 wood, 100 stone)
+- G: University (200 wood)
+- C: Castle (650 stone)
+
+### Unit Commands (when unit is selected)
+- A: Drop Off Resources
+- G: Stop
+- T: Garrison into building
+- R: Repair (villagers only)
+
+### Barracks Units (after Ctrl-B)
+- Q: Militia-line
+- W: Spearman-line
+- R: Eagle Warrior
+
+### Archery Range Units (after Ctrl-A)
+- Q: Archer-line
+- W: Skirmisher
+- E: Cavalry Archer
+- R: Hand Cannoneer
+
+### Stable Units (after Ctrl-L)
+- Q: Scout Cavalry / Hussar
+- W: Knight-line
+- E: Camel Rider
+- R: Battle Elephant
+
+### Siege Workshop Units
+- Q: Battering Ram
+- W: Mangonel / Onager
+- E: Scorpion
+- R: Bombard Cannon / Trebuchet
+- V: Siege Tower
+
+### Castle (after Ctrl-V)
+- Q: Unique Unit
+- W: Trebuchet
+- E: Petard
+
+### Monastery (after Ctrl-Y)
+- Q: Monk
+
+### Market (after Ctrl-M)
+- Q: Trade Cart
+- C: Buy 100 Food
+- X: Buy 100 Wood
+- V: Buy 100 Stone
+- D: Sell 100 Food
+- S: Sell 100 Wood
+- F: Sell 100 Stone
+
+### Mill (after Ctrl-I)
+- R: Reseed Farm
+- T: Toggle Auto Farm Reseeding
+
+### Military Stances (when military unit selected)
+- G: Auto Scout (scout explores map automatically)
+- R: Attack Move
+- Q: Patrol
+- D: Stand Ground
+- S: Defensive stance
+- A: Aggressive stance
