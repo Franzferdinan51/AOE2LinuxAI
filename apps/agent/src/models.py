@@ -1,0 +1,348 @@
+"""Pydantic models for action validation."""
+
+from typing import Literal
+
+from pydantic import (
+    BaseModel,
+    Field,
+    PrivateAttr,
+    ValidationError,
+    field_validator,
+    model_validator,
+)
+
+# Screen-coordinate and wait ceilings. These are enforced by field_validators
+# (below) rather than Field(ge=, le=) ON PURPOSE: a bounded integer in a
+# pydantic Field emits minimum/maximum into the JSON schema, and the executor's
+# single-shot path feeds that schema to Anthropic structured output as a
+# constrained-decoding grammar. Each numeric range compiles to a large
+# digit-by-digit automaton, and 22 such bounds across the Action union pushed
+# the compiled grammar over Anthropic's size limit — every executor turn 400'd
+# with "compiled grammar is too large" (run 12, F-40). A field_validator
+# enforces the SAME range at parse time (dict validation and structured-output
+# parsing both run it) while keeping the field an unbounded int in the schema,
+# so the grammar stays small. The real on-screen bound is enforced downstream
+# anyway (the executor rejects off-map clicks); these ceilings are the 8K-screen
+# outer sanity limit.
+_MAX_X = 7680
+_MAX_Y = 4320
+_MAX_WAIT_MS = 5000
+
+# String lengths stay out of the schema for a second vendor reason: OpenAI
+# strict mode supports pattern, format, minimum, maximum, minItems and maxItems,
+# but NOT minLength/maxLength. `_check_length` enforces the same bounds.
+_MAX_KEY_LEN = 20
+_MAX_BUILDING_KEY_LEN = 2
+
+
+def _check_length(value: str, hi: int, name: str) -> str:
+    """Enforce 1 <= len(value) <= hi. Kept schema-free — see the module note."""
+    if not (1 <= len(value) <= hi):
+        raise ValueError(f"{name} must be 1 to {hi} characters")
+    return value
+
+
+def _in_range(value: int | None, hi: int, name: str) -> int | None:
+    """Enforce 0 <= value <= hi for a coordinate/duration; pass None through.
+
+    Kept schema-free (a validator, not Field bounds) so the constrained-decoding
+    grammar stays small — see the module note above (F-40).
+    """
+    if value is not None and not (0 <= value <= hi):
+        raise ValueError(f"{name} must be in [0, {hi}]")
+    return value
+
+
+class PointTargetAction(BaseModel):
+    """Base for actions that target a point via coordinates, entity ID, or class.
+
+    Can specify either:
+    - x, y coordinates directly
+    - target_id referencing a detected entity (resolved to coordinates at execution)
+    - target_class to target the nearest entity of that class
+    """
+
+    x: int | None = Field(default=None, description="Screen x pixel, 0.._MAX_X")
+    y: int | None = Field(default=None, description="Screen y pixel, 0.._MAX_Y")
+    target_id: str | None = Field(
+        default=None, description="Entity ID from detection, e.g. 'sheep_0'"
+    )
+    target_class: str | None = Field(
+        default=None, description="Entity class to target nearest of, e.g. 'sheep'"
+    )
+    intent: str = ""
+
+    @field_validator("x")
+    @classmethod
+    def _check_x(cls, v: int | None) -> int | None:
+        return _in_range(v, _MAX_X, "x")
+
+    @field_validator("y")
+    @classmethod
+    def _check_y(cls, v: int | None) -> int | None:
+        return _in_range(v, _MAX_Y, "y")
+
+    def _targeting_provided(self) -> bool:
+        """Whether the action names a point (subclasses may add other modes)."""
+        has_coords = self.x is not None and self.y is not None
+        return has_coords or self.target_id is not None or self.target_class is not None
+
+    @model_validator(mode="after")
+    def check_coords_or_target(self) -> "PointTargetAction":
+        """Ensure the action can be resolved to a point at execution time."""
+        if not self._targeting_provided():
+            raise ValueError("Must provide (x, y) coordinates, target_id, or target_class")
+        return self
+
+
+class ClickAction(PointTargetAction):
+    """Left click action."""
+
+    type: Literal["click"]
+    building_key: str | None = Field(
+        default=None,
+        description="Build-menu key when this click places a building — carried "
+        "through validation so the executor can verify the placement landed",
+    )
+    menu: Literal["q", "w", "v"] = Field(
+        default="q",
+        description="Which menu building_key belongs to — the same key means "
+        "different buildings in different menus",
+    )
+    auto_placement: bool = Field(
+        default=False,
+        description="Resolve the placement to open ground AT CLICK TIME — coordinates "
+        "computed before a camera move land on arbitrary terrain (run 8, F-33)",
+    )
+
+    def _targeting_provided(self) -> bool:
+        return self.auto_placement or super()._targeting_provided()
+
+
+class RightClickAction(PointTargetAction):
+    """Right click action."""
+
+    type: Literal["right_click"]
+
+
+# Keys that open the game menu or pause the game — never what the agent means:
+# Escape with nothing to cancel OPENS the menu (run 8, F-32), F10 IS the menu,
+# F3 is pause. UI state is cleared by selecting the TC ('h') instead.
+_GAME_PAUSING_KEYS: frozenset[str] = frozenset({"escape", "esc", "f10", "f3"})
+
+
+class PressAction(BaseModel):
+    """Keyboard press action."""
+
+    type: Literal["press"]
+    key: str
+    modifiers: list[str] = Field(
+        default_factory=list, description="Modifier keys, e.g. ['ctrl', 'shift']"
+    )
+    rescan: bool = Field(
+        default=False, description="Take fresh screenshot+detection after this key press"
+    )
+    intent: str = ""
+
+    @field_validator("key")
+    @classmethod
+    def validate_key(cls, v: str) -> str:
+        """Validate key is a valid pyautogui key."""
+        v = _check_length(v, _MAX_KEY_LEN, "key")
+        valid_special_keys = {
+            "enter", "return", "space", "tab", "escape", "esc", "backspace", "delete", "del",
+            "up", "down", "left", "right", "home", "end", "pageup", "pagedown",
+            "ctrl", "control", "alt", "shift", "win", "command",
+            "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12",
+            "insert", "pause", "capslock", "numlock", "scrolllock", "printscreen",
+        }
+        key_lower = v.lower()
+        if key_lower in _GAME_PAUSING_KEYS:
+            raise ValueError(
+                f"key '{v}' opens the game menu / pauses the game — "
+                "press 'h' (select TC) to clear UI state instead"
+            )
+        if len(v) == 1:
+            return v
+        if key_lower in valid_special_keys:
+            return key_lower
+        if key_lower.startswith("f") and key_lower[1:].isdigit():
+            return key_lower
+        raise ValueError(f"Invalid key: {v}")
+
+
+class DragAction(BaseModel):
+    """Mouse drag action."""
+
+    type: Literal["drag"]
+    start_x: int
+    start_y: int
+    end_x: int
+    end_y: int
+    intent: str = ""
+
+    @field_validator("start_x", "end_x")
+    @classmethod
+    def _check_x(cls, v: int) -> int:
+        return _in_range(v, _MAX_X, "x")  # type: ignore[return-value]
+
+    @field_validator("start_y", "end_y")
+    @classmethod
+    def _check_y(cls, v: int) -> int:
+        return _in_range(v, _MAX_Y, "y")  # type: ignore[return-value]
+
+
+class WaitAction(BaseModel):
+    """Wait/delay action."""
+
+    type: Literal["wait"]
+    ms: int
+    intent: str = ""
+
+    @field_validator("ms")
+    @classmethod
+    def _check_ms(cls, v: int) -> int:
+        return _in_range(v, _MAX_WAIT_MS, "ms")  # type: ignore[return-value]
+
+
+class ScrollAction(BaseModel):
+    """Mouse scroll action (for zoom in/out)."""
+
+    type: Literal["scroll"]
+    clicks: int = Field(
+        description="Positive = scroll up (zoom in), negative = scroll down (zoom out)"
+    )
+    x: int | None = Field(default=None, description="Screen x pixel, 0.._MAX_X")
+    y: int | None = Field(default=None, description="Screen y pixel, 0.._MAX_Y")
+    intent: str = ""
+
+    @field_validator("x")
+    @classmethod
+    def _check_x(cls, v: int | None) -> int | None:
+        return _in_range(v, _MAX_X, "x")
+
+    @field_validator("y")
+    @classmethod
+    def _check_y(cls, v: int | None) -> int | None:
+        return _in_range(v, _MAX_Y, "y")
+
+
+class DetectAction(BaseModel):
+    """Request full SAHI detection scan for accurate entity detection."""
+
+    type: Literal["detect"]
+    intent: str = ""
+
+
+class BuildAction(BaseModel):
+    """Build a structure via a build menu, auto-placed near the Town Center.
+
+    Coordinate-free on purpose: x,y are omitted because the text-only model can't see
+    open ground — the executor picks the placement (near the TC, with retry). Available
+    on the fast single-shot path too, so routine turns can build without the tool loop.
+    """
+
+    type: Literal["build"]
+    menu: Literal["q", "w", "v"] = Field(
+        default="q",
+        description="Build menu: q=economic (default), w=military, v=advanced",
+    )
+    building_key: str = Field(
+        description="Key within the menu. q: q=House w=Mill e=Mining Camp r=Lumber Camp "
+        "a=Farm s=Blacksmith t=Dock. w: q=Barracks w=Archery Range e=Stable. v: d=Market",
+    )
+    intent: str = ""
+
+    @field_validator("building_key")
+    @classmethod
+    def _check_building_key(cls, v: str) -> str:
+        return _check_length(v, _MAX_BUILDING_KEY_LEN, "building_key")
+
+
+class ResearchAction(BaseModel):
+    """Research one technology: go to its building, press its panel key."""
+
+    type: Literal["research"]
+    tech: str = Field(
+        description="castle_age, loom, wheelbarrow, horse_collar, double_bit_axe, gold_mining",
+    )
+    intent: str = ""
+
+
+class QueueVillagerAction(BaseModel):
+    """Queue one villager at the Town Center (select TC → q)."""
+
+    type: Literal["queue_villager"]
+    intent: str = ""
+
+
+Action = (
+    ClickAction | RightClickAction | PressAction | BuildAction | ResearchAction
+    | QueueVillagerAction | DragAction | WaitAction | ScrollAction | DetectAction
+)
+
+
+class Observations(BaseModel):
+    """Game observations extracted by LLM."""
+
+    population: str = ""
+    age: str = ""
+    idle_tc: bool = False
+    under_attack: bool = False
+    game_state: Literal["playing", "victory", "defeat", "menu"] = "playing"
+    events: list[str] = Field(default_factory=list)
+
+
+_ACTION_TYPE_MAP: dict[str, type[Action]] = {
+    "click": ClickAction,
+    "right_click": RightClickAction,
+    "press": PressAction,
+    "build": BuildAction,
+    "research": ResearchAction,
+    "queue_villager": QueueVillagerAction,
+    "drag": DragAction,
+    "wait": WaitAction,
+    "scroll": ScrollAction,
+    "detect": DetectAction,
+}
+
+
+def validate_action(action_dict: dict) -> Action | None:
+    """Validate a single action dictionary."""
+    model_class = _ACTION_TYPE_MAP.get(action_dict.get("type", ""))
+    if not model_class:
+        return None
+    try:
+        return model_class.model_validate(action_dict)
+    except ValidationError:
+        return None
+
+
+def validate_actions(actions: list[dict]) -> list[Action]:
+    """Validate a list of action dicts, filtering out invalid ones."""
+    return [a for raw in actions if (a := validate_action(raw)) is not None]
+
+
+class LLMResponse(BaseModel):
+    """Complete LLM response with validation."""
+
+    actions: list[Action] = Field(default_factory=list)
+    observations: Observations = Field(default_factory=Observations)
+    reasoning: str = ""
+    _success_count: int = PrivateAttr(default=0)
+
+    @field_validator("actions", mode="before")
+    @classmethod
+    def salvage_valid_actions(cls, v: list) -> list:
+        """Validate actions individually, dropping invalid ones."""
+        if not isinstance(v, list):
+            return v
+        validated = []
+        for item in v:
+            if isinstance(item, dict):
+                action = validate_action(item)
+                if action is not None:
+                    validated.append(action)
+            else:
+                validated.append(item)
+        return validated
