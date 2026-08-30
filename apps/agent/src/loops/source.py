@@ -1,0 +1,153 @@
+"""Where a frame comes from, and where an action goes."""
+
+from __future__ import annotations
+
+import asyncio
+import time
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
+from typing import TYPE_CHECKING, Protocol
+
+import structlog
+
+from ..config import config
+from ..detection_phase import (
+    _classify_entities,
+    _register_rescan_callbacks,
+    _run_detection,
+)
+from ..executor import execute_actions
+from ..providers.strategist import read_hud_readings
+from ..screen import capture_screenshot, save_screenshot
+from ..window import get_game_window_rect
+from .snapshot import FramePipe, Perception
+
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable, Mapping, Sequence
+    from pathlib import Path
+
+    from detection.inference.detector import EntityDetector
+    from detection.inference.frame_diff import FrameDiffer
+    from detection.inference.ownership import Owner
+    from detection.inference.remote_detector import RemoteDetector
+
+    from ..executor import ActionResult
+    from ..models import Action
+    from ..overlay import DetectionOverlay
+    from ..turn_timing import TickTimings
+
+    Detector = EntityDetector | RemoteDetector
+
+log = structlog.stdlib.get_logger()
+
+_SCREENSHOT_SAMPLE = 10
+_REFRESH_TIMEOUT = 3.0
+
+
+def frame_refresh(frames: FramePipe) -> Callable[[], Awaitable[None]]:
+    async def refresh() -> None:
+        asked = time.monotonic()
+        frames.request_now()
+        try:
+            await asyncio.wait_for(frames.after(asked), timeout=_REFRESH_TIMEOUT)
+        except TimeoutError:
+            log.warning("frame_refresh_timed_out", seconds=_REFRESH_TIMEOUT)
+
+    return refresh
+
+
+@dataclass(frozen=True, slots=True)
+class Sighting:
+    frame: Perception
+    ownership: Mapping[str, tuple[Owner, float]] = field(default_factory=dict)
+
+
+class FrameSource(Protocol):
+    async def capture(self, tick: int, timings: TickTimings) -> Sighting:
+        ...
+    def close(self) -> None:
+        ...
+
+
+class Actuator(Protocol):
+    async def execute(self, actions: Sequence[Action | dict[str, object]]) -> list[ActionResult]:
+        ...
+
+
+def _grab() -> tuple[bytes, int, int, float]:
+    stamped = time.monotonic()
+    screenshot, width, height = capture_screenshot()
+    return screenshot, width, height, stamped
+
+
+class GameSource:
+    """The real game: mss, YOLO and local OCR."""
+
+    def __init__(
+        self,
+        detector: Detector | None = None,
+        overlay: DetectionOverlay | None = None,
+        frame_differ: FrameDiffer | None = None,
+        screenshots_dir: Path | None = None,
+    ) -> None:
+        self._detector = detector
+        self._overlay = overlay
+        self._screenshots_dir = screenshots_dir
+        if detector is not None:
+            _register_rescan_callbacks(detector, overlay, frame_differ)
+
+    async def capture(self, tick: int, timings: TickTimings) -> Sighting:
+        with timings.phase("capture"):
+            if self._overlay:
+                self._overlay.hide()
+            screenshot, width, height, captured_at = await asyncio.to_thread(_grab)
+            self._save_sample(screenshot, tick)
+
+        with timings.phase("ocr"):
+            hud_readings, calib = await read_hud_readings(screenshot, turn=tick)
+        if self._overlay is not None and calib is not None:
+            self._overlay.set_ocr_fields(calib.field_rects())
+
+        with timings.phase("detect"):
+            entities: list[object] = []
+            if self._detector:
+                entities = await _run_detection(self._detector, screenshot, tick, alarm=False)
+            if self._overlay is not None:
+                self._overlay.show(entities, get_game_window_rect())
+            entity_summary, ownership = await _classify_entities(entities, screenshot)
+
+        return Sighting(
+            frame=Perception(
+                screenshot=screenshot,
+                width=width,
+                height=height,
+                entities=tuple(entities),
+                entity_summary=entity_summary,
+                hud_readings=hud_readings,
+                tick=tick,
+                captured_at=captured_at,
+            ),
+            ownership=ownership,
+        )
+
+    def _save_sample(self, screenshot: bytes, tick: int) -> None:
+        if not (config.save_screenshots and self._screenshots_dir):
+            return
+        if tick % _SCREENSHOT_SAMPLE:
+            return
+        stamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
+        save_screenshot(screenshot, str(self._screenshots_dir / f"{stamp}_{tick:05d}.jpg"))
+
+    def close(self) -> None:
+        if self._overlay:
+            self._overlay.close()
+
+
+class GameActuator:
+    """The real game: synthetic mouse and keyboard through pyautogui."""
+
+    async def execute(self, actions: Sequence[Action | dict[str, object]]) -> list[ActionResult]:
+        return await execute_actions(actions)
+
+
+__all__ = ["Actuator", "FrameSource", "GameActuator", "GameSource", "Sighting"]
