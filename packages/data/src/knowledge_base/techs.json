@@ -1,0 +1,1016 @@
+[
+  {
+    'id': 3,
+    'name': 'Yeomen',
+    'internal_name': 'British Yeoman',
+    'cost': {
+      'food': 0,
+      'wood': 750,
+      'gold': 450,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Yeomen</b> (‹cost›)<br>\nFoot Archers and Skirmisher-line +1 range; Watch Tower-line +2 attack.'
+  },
+  {
+    'id': 4,
+    'name': 'El Dorado',
+    'internal_name': 'Mayan El Dorado',
+    'cost': {
+      'food': 750,
+      'wood': 0,
+      'gold': 450,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>El Dorado</b> (‹cost›)<br>\nEagle Warriors +40 HP.'
+  },
+  {
+    'id': 5,
+    'name': 'Furor Celtica',
+    'internal_name': 'Celtic Furor Celtica',
+    'cost': {
+      'food': 750,
+      'wood': 0,
+      'gold': 450,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Furor Celtica</b> (‹cost›)<br>\nSiege Weapons +40% HP.'
+  },
+  {
+    'id': 6,
+    'name': 'Drill',
+    'internal_name': 'Mongol Siege Drill',
+    'cost': {
+      'food': 0,
+      'wood': 500,
+      'gold': 450,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Drill</b> (‹cost›)<br>\nSiege Workshop Units move +50% faster.'
+  },
+  {
+    'id': 7,
+    'name': 'Citadels',
+    'internal_name': 'Citadels',
+    'cost': {
+      'food': 0,
+      'wood': 600,
+      'gold': 300,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Citadels</b> (‹cost›)<br>\nCastles +4 attack, +3 vs. Rams, +3 vs. Infantry and receive -25% bonus damage.'
+  },
+  {
+    'id': 8,
+    'name': 'Town Watch',
+    'internal_name': 'Town Watch',
+    'cost': {
+      'food': 75,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 25,
+    'description': 'Research <b>Town Watch</b> (‹cost›)<br>\nBuildings +4 line of sight.'
+  },
+  {
+    'id': 10,
+    'name': 'Artillery',
+    'internal_name': 'Turkish Artillery',
+    'cost': {
+      'food': 600,
+      'wood': 0,
+      'gold': 650,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Artillery</b> (‹cost›)<br>\nBombard Towers, Bombard Cannons, Cannon Galleons +2 range.'
+  },
+  {
+    'id': 11,
+    'name': 'Crenellations',
+    'internal_name': 'Teuton Crenellations',
+    'cost': {
+      'food': 600,
+      'wood': 0,
+      'gold': 0,
+      'stone': 400
+    },
+    'research_time': 60,
+    'description': 'Research <b>Crenellations</b> (‹cost›)<br>\nCastles +3 range, garrisoned Infantry fires arrows.'
+  },
+  {
+    'id': 12,
+    'name': 'Crop Rotation',
+    'internal_name': 'Crop rotation',
+    'cost': {
+      'food': 250,
+      'wood': 250,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>Crop Rotation</b> (‹cost›)<br>\nNew Farms provide +175 food.'
+  },
+  {
+    'id': 13,
+    'name': 'Heavy Plow',
+    'internal_name': 'Heavy plow',
+    'cost': {
+      'food': 125,
+      'wood': 125,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Heavy Plow</b> (‹cost›)<br>\nNew Farms provide +125 food. Farmers +1 carry capacity.'
+  },
+  {
+    'id': 14,
+    'name': 'Horse Collar',
+    'internal_name': 'Horse collar',
+    'cost': {
+      'food': 75,
+      'wood': 75,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 20,
+    'description': 'Research <b>Horse Collar</b> (‹cost›)<br>\nNew Farms provide +75 food.'
+  },
+  {
+    'id': 15,
+    'name': 'Guilds',
+    'internal_name': 'Guilds',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Guilds</b> (‹cost›)<br>\nMarket trading fee reduced to 15%.'
+  },
+  {
+    'id': 16,
+    'name': 'Anarchy',
+    'internal_name': 'Gothic Anarchy',
+    'cost': {
+      'food': 450,
+      'wood': 0,
+      'gold': 250,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Anarchy</b> (‹cost›)<br>\nHuskarls can be trained at Barracks.'
+  },
+  {
+    'id': 17,
+    'name': 'Banking',
+    'internal_name': 'Banking',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>Banking</b> (‹cost›)<br>\nTributes to other players are free.'
+  },
+  {
+    'id': 19,
+    'name': 'Cartography',
+    'internal_name': 'Cartography',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 1,
+    'description': 'Research <b>Cartography</b> (‹cost›)<br>\nYou and your allies share the same line of sight (you see what they see).'
+  },
+  {
+    'id': 21,
+    'name': 'Atheism',
+    'internal_name': 'Hun Atheism',
+    'cost': {
+      'food': 500,
+      'wood': 300,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Atheism</b> (‹cost›)<br>\nEnemy Relics generate -50% resources; Wonder and Relic victory takes +100 years.'
+  },
+  {
+    'id': 22,
+    'name': 'Loom',
+    'internal_name': 'Loom',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 50,
+      'stone': 0
+    },
+    'research_time': 25,
+    'description': 'Research <b>Loom</b> (‹cost›)<br>\nVillagers +15 HP and +1 melee/+2 pierce armor.'
+  },
+  {
+    'id': 23,
+    'name': 'Coinage',
+    'internal_name': 'Coinage',
+    'cost': {
+      'food': 200,
+      'wood': 0,
+      'gold': 100,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>Coinage</b> (‹cost›)<br>\nTributes to other players cost only 20%.'
+  },
+  {
+    'id': 24,
+    'name': 'Garland Wars',
+    'internal_name': 'Aztec Garland Wars',
+    'cost': {
+      'food': 450,
+      'wood': 0,
+      'gold': 750,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Garland Wars</b> (‹cost›)<br>\nInfantry +4 attack.'
+  },
+  {
+    'id': 28,
+    'name': 'Bimaristan',
+    'internal_name': 'Bimaristan',
+    'cost': {
+      'food': 0,
+      'wood': 300,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Bimaristan</b> (‹cost›)<br>\nMonks passively heal multiple nearby units.'
+  },
+  {
+    'id': 39,
+    'name': 'Husbandry',
+    'internal_name': 'Husbandry',
+    'cost': {
+      'food': 150,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Husbandry</b> (‹cost›)<br>\nMounted Units move +10% faster.'
+  },
+  {
+    'id': 45,
+    'name': 'Faith',
+    'internal_name': 'Faith',
+    'cost': {
+      'food': 550,
+      'wood': 0,
+      'gold': 750,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Faith</b> (‹cost›)<br>\nUnits are 50% harder for enemy Monks to convert.'
+  },
+  {
+    'id': 46,
+    'name': 'Devotion',
+    'internal_name': 'Devotion',
+    'cost': {
+      'food': 100,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Devotion</b> (‹cost›)<br>\nUnits are 15% harder for enemy Monks to convert.'
+  },
+  {
+    'id': 47,
+    'name': 'Chemistry',
+    'internal_name': 'Chemistry',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 100,
+    'description': 'Research <b>Chemistry</b> (‹cost›)<br>\nFoot Archers, Skirmishers, Mounted Archers, ranged Warships and ranged Fortifications +1 attack.<br>\n<b><i>Required for Gunpowder Units (Hand Cannoneer, Cannon Galleon, Bombard Cannon, Bombard Tower).</b></i>'
+  },
+  {
+    'id': 48,
+    'name': 'Caravan',
+    'internal_name': 'Caravan',
+    'cost': {
+      'food': 200,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Caravan</b> (‹cost›)<br>\nTrade Units move +20% faster.'
+  },
+  {
+    'id': 49,
+    'name': 'Bogsveigar',
+    'internal_name': 'Bogsveigar',
+    'cost': {
+      'food': 650,
+      'wood': 0,
+      'gold': 500,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Bogsveigar</b> (‹cost›)<br>\nArcher-line and Longboats +1 attack.'
+  },
+  {
+    'id': 50,
+    'name': 'Masonry',
+    'internal_name': 'Masonry',
+    'cost': {
+      'food': 150,
+      'wood': 175,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Masonry</b> (‹cost›)<br>\nBuildings +10% HP, +1 melee/+1 pierce armor and +3 building armor.'
+  },
+  {
+    'id': 51,
+    'name': 'Architecture',
+    'internal_name': 'Architecture',
+    'cost': {
+      'food': 300,
+      'wood': 200,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>Architecture</b> (‹cost›)<br>\nBuildings +10% HP, +1 melee/+1 pierce armor and +3 building armor.'
+  },
+  {
+    'id': 52,
+    'name': 'Rocketry',
+    'internal_name': 'Chinese Rocketry',
+    'cost': {
+      'food': 1100,
+      'wood': 0,
+      'gold': 900,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Rocketry</b> (‹cost›)<br>\nScorpions, Rocket Carts and Lou Chuans +25% attack; Lou Chuans fire rockets.'
+  },
+  {
+    'id': 54,
+    'name': 'Treadmill Crane',
+    'internal_name': 'Stone cutting',
+    'cost': {
+      'food': 0,
+      'wood': 200,
+      'gold': 0,
+      'stone': 50
+    },
+    'research_time': 20,
+    'description': 'Research <b>Treadmill Crane</b> (‹cost›)<br>\nVillagers construct buildings +20% faster.'
+  },
+  {
+    'id': 55,
+    'name': 'Gold Mining',
+    'internal_name': 'Gold Mining',
+    'cost': {
+      'food': 100,
+      'wood': 75,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 30,
+    'description': 'Research <b>Gold Mining</b> (‹cost›)<br>\nVillagers gather gold +15% faster.'
+  },
+  {
+    'id': 59,
+    'name': 'Kataparuto',
+    'internal_name': 'Japanese Kataparuto',
+    'cost': {
+      'food': 0,
+      'wood': 550,
+      'gold': 300,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Kataparuto</b> (‹cost›)<br>\nTrebuchets attack and pack/unpack faster.'
+  },
+  {
+    'id': 61,
+    'name': 'Logistica',
+    'internal_name': 'Byzantine Logistica',
+    'cost': {
+      'food': 800,
+      'wood': 0,
+      'gold': 600,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Logistica</b> (‹cost›)<br>\nCataphracts deal trample damage, +6 attack vs. Infantry.'
+  },
+  {
+    'id': 63,
+    'name': 'Keep',
+    'internal_name': 'Keep',
+    'cost': {
+      'food': 500,
+      'wood': 350,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 75,
+    'description': 'Upgrade to <b>Keep</b> (‹cost›)<br>\nUpgrades Guard Towers to Keeps, which are stronger.'
+  },
+  {
+    'id': 64,
+    'name': 'Bombard Tower',
+    'internal_name': 'Bombard Tower',
+    'cost': {
+      'food': 800,
+      'wood': 400,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Bombard Tower</b> (‹cost›)<br>\nUnlocks Bombard Towers.'
+  },
+  {
+    'id': 65,
+    'name': 'Gillnets',
+    'internal_name': 'Gillnets',
+    'cost': {
+      'food': 150,
+      'wood': 200,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 45,
+    'description': 'Research <b>Gillnets</b> (‹cost›)<br>\nFishing Ships gather food +20% faster.'
+  },
+  {
+    'id': 67,
+    'name': 'Forging',
+    'internal_name': 'Forging',
+    'cost': {
+      'food': 150,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Forging</b> (‹cost›)<br>\nInfantry and Cavalry +1 attack.'
+  },
+  {
+    'id': 68,
+    'name': 'Iron Casting',
+    'internal_name': 'Iron casting',
+    'cost': {
+      'food': 220,
+      'wood': 0,
+      'gold': 120,
+      'stone': 0
+    },
+    'research_time': 75,
+    'description': 'Research <b>Iron Casting</b> (‹cost›)<br>\nInfantry and Cavalry +1 attack.'
+  },
+  {
+    'id': 74,
+    'name': 'Scale Mail Armor',
+    'internal_name': 'Scale Mail Armor',
+    'cost': {
+      'food': 100,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Scale Mail Armor</b> (‹cost›)<br>\nInfantry +1 melee/+1 pierce armor.'
+  },
+  {
+    'id': 75,
+    'name': 'Blast Furnace',
+    'internal_name': 'Blast Furnace',
+    'cost': {
+      'food': 275,
+      'wood': 0,
+      'gold': 225,
+      'stone': 0
+    },
+    'research_time': 100,
+    'description': 'Research <b>Blast Furnace</b> (‹cost›)<br>\nInfantry and Cavalry +2 attack.'
+  },
+  {
+    'id': 76,
+    'name': 'Chain Mail Armor',
+    'internal_name': 'Chain Mail Armor',
+    'cost': {
+      'food': 200,
+      'wood': 0,
+      'gold': 100,
+      'stone': 0
+    },
+    'research_time': 55,
+    'description': 'Research <b>Chain Mail Armor</b> (‹cost›)<br>\nInfantry +1 melee/+1 pierce armor.'
+  },
+  {
+    'id': 77,
+    'name': 'Plate Mail Armor',
+    'internal_name': 'Plate Mail Armor',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 150,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>Plate Mail Armor</b> (‹cost›)<br>\nInfantry +1 melee/+2 pierce armor.'
+  },
+  {
+    'id': 80,
+    'name': 'Plate Barding Armor',
+    'internal_name': 'Plate Barding Armor',
+    'cost': {
+      'food': 350,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 75,
+    'description': 'Research <b>Plate Barding Armor</b> (‹cost›)<br>\nCavalry +1 melee/+2 pierce armor.'
+  },
+  {
+    'id': 81,
+    'name': 'Scale Barding Armor',
+    'internal_name': 'Scale Barding Armor',
+    'cost': {
+      'food': 150,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 45,
+    'description': 'Research <b>Scale Barding Armor</b> (‹cost›)<br>\nCavalry +1 melee/+1 pierce armor.'
+  },
+  {
+    'id': 82,
+    'name': 'Chain Barding Armor',
+    'internal_name': 'Chain Barding Armor',
+    'cost': {
+      'food': 250,
+      'wood': 0,
+      'gold': 150,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Chain Barding Armor</b> (‹cost›)<br>\nCavalry +1 melee/+1 pierce armor.'
+  },
+  {
+    'id': 83,
+    'name': 'Bearded Axe',
+    'internal_name': 'Frankish Bearded Axe',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 300,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Bearded Axe</b> (‹cost›)<br>\nThrowing Axemen +1 range.'
+  },
+  {
+    'id': 90,
+    'name': 'Tracking',
+    'internal_name': 'Tracking',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 0,
+    'description': 'Research <b>Tracking</b> (‹cost›)<br>\nInfantry have +2 line of sight so they see enemy units from a longer distance.'
+  },
+  {
+    'id': 93,
+    'name': 'Ballistics',
+    'internal_name': 'Ballistics',
+    'cost': {
+      'food': 0,
+      'wood': 300,
+      'gold': 175,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Ballistics</b> (‹cost›)<br>\nFoot Archers, Skirmishers, Mounted Archers, ranged Warships, ranged Fortifications and some Siege Weapons fire more accurately at moving targets.'
+  },
+  {
+    'id': 101,
+    'name': 'Feudal Age',
+    'internal_name': 'Middle Age',
+    'cost': {
+      'food': 500,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 130,
+    'description': 'Advance to <b>Feudal Age</b> (‹cost›; two Dark Age buildings)<br>\nImproves your civilization. Gives you access to different buildings, more powerful military units, and stronger technologies. Before you can advance, you must have any two Dark Age buildings: Lumber Camp, Mining Camp, Mill, Dock, or Barracks.'
+  },
+  {
+    'id': 102,
+    'name': 'Castle Age',
+    'internal_name': 'Feudal Age',
+    'cost': {
+      'food': 800,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 160,
+    'description': 'Advance to <b>Castle Age</b> (‹cost›; two Feudal Age buildings)<br>\nImproves your civilization. Gives you access to different buildings, more powerful military units, and stronger technologies. Before you can advance, you must have any two Feudal Age buildings: Archery Range, Stable, Blacksmith, or Market.'
+  },
+  {
+    'id': 103,
+    'name': 'Imperial Age',
+    'internal_name': 'Imperial Age',
+    'cost': {
+      'food': 1000,
+      'wood': 0,
+      'gold': 800,
+      'stone': 0
+    },
+    'research_time': 190,
+    'description': 'Advance to <b>Imperial Age</b> (‹cost›; two Castle Age buildings or a Castle/Krepost)<br>\nImproves your civilization. Gives you access to different buildings, more powerful military units, and stronger technologies. Before you can advance, you must have a Castle/Krepost or any two Castle Age buildings.'
+  },
+  {
+    'id': 140,
+    'name': 'Guard Tower',
+    'internal_name': 'Guard Tower',
+    'cost': {
+      'food': 100,
+      'wood': 250,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 30,
+    'description': 'Upgrade to <b>Guard Tower</b> (‹cost›)<br>\nUpgrades Watch Towers to Guard Towers, which are stronger.'
+  },
+  {
+    'id': 182,
+    'name': 'Gold Shaft Mining',
+    'internal_name': 'Gold Shaft Mining',
+    'cost': {
+      'food': 175,
+      'wood': 75,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 75,
+    'description': 'Research <b>Gold Shaft Mining</b> (‹cost›)<br>\nVillagers gather gold +15% faster.'
+  },
+  {
+    'id': 194,
+    'name': 'Fortified Wall',
+    'internal_name': 'Fortified Wall',
+    'cost': {
+      'food': 200,
+      'wood': 100,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Upgrade to <b>Fortified Wall</b> (‹cost›)<br>\nUpgrades Stone Walls and Stone Gates to Fortified Walls and Gates, which are stronger.'
+  },
+  {
+    'id': 199,
+    'name': 'Fletching',
+    'internal_name': 'Fletching',
+    'cost': {
+      'food': 100,
+      'wood': 0,
+      'gold': 50,
+      'stone': 0
+    },
+    'research_time': 30,
+    'description': 'Research <b>Fletching</b> (‹cost ›)<br>\nArchery Units, Skirmishers, ranged Warships, ranged Fortifications +1 attack, +1 range; Town Centers +1 attack.'
+  },
+  {
+    'id': 200,
+    'name': 'Bodkin Arrow',
+    'internal_name': 'Bodkin Arrow',
+    'cost': {
+      'food': 200,
+      'wood': 0,
+      'gold': 100,
+      'stone': 0
+    },
+    'research_time': 35,
+    'description': 'Research <b>Bodkin Arrow</b> (‹cost›)<br>\nArchery Units, Skirmishers, ranged Warships, ranged Fortifications +1 attack, +1 range; Town Centers +1 attack.'
+  },
+  {
+    'id': 201,
+    'name': 'Bracer',
+    'internal_name': 'Bracer',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Bracer</b> (‹cost›)<br>\nArchery Units, Skirmishers, ranged Warships, ranged Fortifications +1 attack, +1 range; Town Centers +1 attack.'
+  },
+  {
+    'id': 202,
+    'name': 'Double-Bit Axe',
+    'internal_name': 'Double Bit Axe',
+    'cost': {
+      'food': 100,
+      'wood': 50,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 25,
+    'description': 'Research <b>Double-Bit Axe</b> (‹cost›)<br>\nVillagers gather wood +20% faster.'
+  },
+  {
+    'id': 203,
+    'name': 'Bow Saw',
+    'internal_name': 'Bow Saw',
+    'cost': {
+      'food': 150,
+      'wood': 100,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Bow Saw</b> (‹cost›)<br>\nVillagers gather wood +20% faster.'
+  },
+  {
+    'id': 211,
+    'name': 'Padded Archer Armor',
+    'internal_name': 'Padded Archer Armor',
+    'cost': {
+      'food': 100,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Padded Archer Armor</b> (‹cost›)<br>\nRanged Soldiers +1 melee/+1 pierce armor.'
+  },
+  {
+    'id': 212,
+    'name': 'Leather Archer Armor',
+    'internal_name': 'Leather Archer Armor',
+    'cost': {
+      'food': 150,
+      'wood': 0,
+      'gold': 150,
+      'stone': 0
+    },
+    'research_time': 55,
+    'description': 'Research <b>Leather Archer Armor</b> (‹cost›)<br>\nRanged Soldiers +1 melee/+1 pierce armor.'
+  },
+  {
+    'id': 213,
+    'name': 'Wheelbarrow',
+    'internal_name': 'Wheel Barrow',
+    'cost': {
+      'food': 175,
+      'wood': 50,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 75,
+    'description': 'Research <b>Wheelbarrow</b> (‹cost›)<br>\nVillagers +25% carry capacity and move +10% faster.'
+  },
+  {
+    'id': 215,
+    'name': 'Squires',
+    'internal_name': 'Squires',
+    'cost': {
+      'food': 100,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Squires</b> (‹cost›)<br>\nInfantry moves +10% faster.'
+  },
+  {
+    'id': 219,
+    'name': 'Ring Archer Armor',
+    'internal_name': 'Ring Archer Armor',
+    'cost': {
+      'food': 250,
+      'wood': 0,
+      'gold': 250,
+      'stone': 0
+    },
+    'research_time': 70,
+    'description': 'Research <b>Ring Archer Armor</b> (‹cost›)<br>\nRanged Soldiers +1 melee/+2 pierce armor.'
+  },
+  {
+    'id': 221,
+    'name': 'Two-Man Saw',
+    'internal_name': 'Two Man Saw',
+    'cost': {
+      'food': 300,
+      'wood': 200,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 100,
+    'description': 'Research <b>Two-Man Saw</b> (‹cost›)<br>\nVillagers gather wood +10% faster.'
+  },
+  {
+    'id': 230,
+    'name': 'Block Printing',
+    'internal_name': 'Block Printing',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 200,
+      'stone': 0
+    },
+    'research_time': 55,
+    'description': 'Research <b>Block Printing</b> (‹cost›)<br>\nMonastery Units +3 conversion range.'
+  },
+  {
+    'id': 231,
+    'name': 'Sanctity',
+    'internal_name': 'Sanctity',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 175,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Sanctity</b> (‹cost›)<br>\nMonastery Units +15 HP.'
+  },
+  {
+    'id': 233,
+    'name': 'Illumination',
+    'internal_name': 'Illumination',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 120,
+      'stone': 0
+    },
+    'research_time': 65,
+    'description': 'Research <b>Illumination</b> (‹cost›)<br>\nMonastery Units regain their faith +100% faster after a successful conversion.'
+  },
+  {
+    'id': 249,
+    'name': 'Hand Cart',
+    'internal_name': 'Hand Cart',
+    'cost': {
+      'food': 300,
+      'wood': 200,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 55,
+    'description': 'Research <b>Hand Cart</b> (‹cost›)<br>\nVillagers +50% carry capacity and move +10% faster.'
+  },
+  {
+    'id': 252,
+    'name': 'Fervor',
+    'internal_name': 'Fervor',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 140,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Fervor</b> (‹cost›)<br>\nMonastery Units move +15% faster.'
+  },
+  {
+    'id': 278,
+    'name': 'Stone Mining',
+    'internal_name': 'Stone Mining',
+    'cost': {
+      'food': 100,
+      'wood': 75,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 30,
+    'description': 'Research <b>Stone Mining</b> (‹cost›)<br>\nVillagers gather stone +15% faster.'
+  },
+  {
+    'id': 279,
+    'name': 'Stone Shaft Mining',
+    'internal_name': 'Stone Shaft Mining',
+    'cost': {
+      'food': 175,
+      'wood': 75,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 75,
+    'description': 'Research <b>Stone Shaft Mining</b> (‹cost›)<br>\nVillagers gather stone +15% faster.'
+  },
+  {
+    'id': 280,
+    'name': 'Town Patrol',
+    'internal_name': 'Town Patrol',
+    'cost': {
+      'food': 300,
+      'wood': 0,
+      'gold': 100,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Town Patrol</b> (‹cost›)<br>\nBuildings +4 line of sight.'
+  },
+  {
+    'id': 315,
+    'name': 'Conscription',
+    'internal_name': 'Conscription',
+    'cost': {
+      'food': 150,
+      'wood': 0,
+      'gold': 150,
+      'stone': 0
+    },
+    'research_time': 60,
+    'description': 'Research <b>Conscription</b> (‹cost›)<br>\nMilitary buildings (except Siege Workshops) work +33% faster.'
+  },
+  {
+    'id': 316,
+    'name': 'Redemption',
+    'internal_name': 'Redemption',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 475,
+      'stone': 0
+    },
+    'research_time': 50,
+    'description': 'Research <b>Redemption</b> (‹cost›)<br>\nMonks can convert enemy Siege Weapons and buildings (except Town Centers, Castles, Monasteries, Farms, Fish Traps, Walls, Gates, and Wonders). Monks can convert most enemy units from a distance, but they must stand adjacent to buildings, rams, and Trebuchets to convert them.'
+  },
+  {
+    'id': 319,
+    'name': 'Atonement',
+    'internal_name': 'Atonement',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 325,
+      'stone': 0
+    },
+    'research_time': 40,
+    'description': 'Research <b>Atonement</b> (‹cost›)<br>\nMonks can convert enemy Monastery Units.'
+  },
+  {
+    'id': 321,
+    'name': 'Sappers',
+    'internal_name': 'Sappers',
+    'cost': {
+      'food': 400,
+      'wood': 200,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 10,
+    'description': 'Research <b>Sappers</b> (‹cost›)<br>\nInfantry gain +40 attack against buildings and deal +40 attack against Stone Walls / Fortified Walls.'
+  },
+  {
+    'id': 322,
+    'name': 'Conscription (Armenians)',
+    'internal_name': 'Armenian Conscription',
+    'cost': {
+      'food': 0,
+      'wood': 0,
+      'gold': 0,
+      'stone': 0
+    },
+    'research_time': 0,
+    'description': 'Research <b>Conscription</b> (‹cost›)<br>\nMilitary buildings work +25% faster.'
+  }
+]
