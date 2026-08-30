@@ -1,0 +1,219 @@
+"""Live detection overlay for AoE2 agent.
+
+Draws YOLO bounding boxes on a transparent, click-through window
+positioned over the game. Windows-only (uses WS_EX_TRANSPARENT).
+
+Usage:
+    overlay = DetectionOverlay()
+    overlay.show(entities, window_rect)  # draw boxes
+    overlay.hide()                       # hide before screenshot
+    overlay.close()                      # cleanup
+"""
+
+from __future__ import annotations
+
+import contextlib
+import logging
+import sys
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from detection.inference.detector import DetectedEntity
+
+logger = logging.getLogger(__name__)
+
+# Category colors (RGB) — matches detection/labeling/prelabel.py
+_RESOURCE_CLASSES = {"tree", "gold_mine", "stone_mine", "berry_bush", "relic"}
+_ANIMAL_CLASSES = {"sheep", "deer", "boar", "wolf", "goose"}
+_BUILDING_CLASSES = {
+    "town_center",
+    "house",
+    "lumber_camp",
+    "mining_camp",
+    "mill",
+    "market",
+    "dock",
+    "farm",
+    "barracks",
+    "archery_range",
+    "stable",
+    "blacksmith",
+    "siege_workshop",
+    "monastery",
+    "castle",
+    "university",
+}
+_DEFENSE_CLASSES = {"gate", "wall", "tower", "wonder", "krepost"}
+
+# Resource-bar OCR reading regions use a distinct color so they never read as an
+# entity box (entity boxes use the category colors above).
+_OCR_FIELD_COLOR = "#FFD700"  # gold
+
+# Shared label font for all overlay text (entity + OCR-field labels).
+_LABEL_FONT = ("Consolas", 9)
+
+
+def _get_color(class_name: str) -> str:
+    """Get tkinter-compatible hex color for a class name."""
+    if class_name in _RESOURCE_CLASSES:
+        return "#228B22"  # green
+    if class_name in _ANIMAL_CLASSES:
+        return "#FFA500"  # orange
+    if class_name in _BUILDING_CLASSES:
+        return "#4169E1"  # blue
+    if class_name in _DEFENSE_CLASSES:
+        return "#9400D3"  # purple
+    return "#DC143C"  # red (units, military)
+
+
+class DetectionOverlay:
+    """Transparent click-through overlay that shows YOLO detections."""
+
+    OVERLAY_TITLE = "AoE2 Detection Overlay"
+
+    def __init__(self) -> None:
+        import tkinter as tk
+
+        self._root = tk.Tk()
+        self._root.title(self.OVERLAY_TITLE)
+        self._root.overrideredirect(True)  # no window decorations
+        self._root.attributes("-topmost", True)  # always on top
+        self._root.configure(bg="black")
+
+        # Full-screen canvas with black background (black = transparent via color key)
+        self._canvas = tk.Canvas(
+            self._root,
+            bg="black",
+            highlightthickness=0,
+            bd=0,
+        )
+        self._canvas.pack(fill=tk.BOTH, expand=True)
+
+        # Start hidden until first show() call
+        self._root.withdraw()
+        self._visible = False
+
+        # Resource-bar OCR reading regions (name -> screenshot-relative x0,y0,x1,y1).
+        # Stored as state so they persist across the mid-turn rescan show() calls.
+        self._ocr_fields: dict[str, tuple[int, int, int, int]] = {}
+
+        # Apply Windows click-through transparency
+        self._root.update_idletasks()
+        self._make_click_through()
+
+        logger.info("Detection overlay initialized")
+
+    def _make_click_through(self) -> None:
+        """Set WS_EX_TRANSPARENT + WS_EX_LAYERED so clicks pass through."""
+        if sys.platform != "win32":
+            logger.warning("Overlay click-through only works on Windows")
+            return
+
+        try:
+            import ctypes
+
+            # Get the HWND for the overlay window
+            hwnd: int = ctypes.windll.user32.FindWindowW(None, self.OVERLAY_TITLE)  # pyright: ignore[reportAny]
+            if not hwnd:
+                logger.warning("Could not find overlay HWND")
+                return
+
+            GWL_EXSTYLE = -20
+            WS_EX_LAYERED = 0x00080000
+            WS_EX_TRANSPARENT = 0x00000020
+            LWA_COLORKEY = 0x00000001
+
+            # Add layered + transparent extended styles
+            ex_style: int = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)  # pyright: ignore[reportAny]
+            ctypes.windll.user32.SetWindowLongW(
+                hwnd, GWL_EXSTYLE, ex_style | WS_EX_LAYERED | WS_EX_TRANSPARENT
+            )
+
+            # Set black (0x00000000) as the transparent color key
+            ctypes.windll.user32.SetLayeredWindowAttributes(hwnd, 0x00000000, 0, LWA_COLORKEY)
+
+            logger.info("Overlay click-through enabled")
+        except Exception as e:
+            logger.warning("Failed to set click-through: %s", e)
+
+    def hide(self) -> None:
+        """Hide overlay (call before screenshot capture)."""
+        if self._visible:
+            self._root.withdraw()
+            self._root.update_idletasks()
+            self._visible = False
+
+    def set_ocr_fields(self, fields: dict[str, tuple[int, int, int, int]]) -> None:
+        """Set the resource-bar OCR reading regions to draw (screenshot-relative).
+
+        Stored as state and redrawn on every ``show()`` so the boxes survive the
+        mid-turn rescans (which call ``show()`` without a calibration). Pass an
+        empty dict to clear them.
+        """
+        self._ocr_fields = fields
+
+    def _draw_labeled_box(
+        self, box: tuple[float, float, float, float], color: str, label: str
+    ) -> None:
+        """Draw an outlined box with a filled label tab above its top-left corner.
+
+        Shared by the entity boxes and the OCR field boxes so the box/label drawing
+        geometry lives in exactly one place.
+        """
+        x0, y0, x1, y1 = box
+        self._canvas.create_rectangle(x0, y0, x1, y1, outline=color, width=2)
+        # Filled tab behind the label for legibility, then the label text on top.
+        self._canvas.create_rectangle(
+            x0, y0 - 16, x0 + len(label) * 7, y0 - 1, fill=color, outline=color
+        )
+        self._canvas.create_text(
+            x0 + 2, y0 - 9, text=label, fill="white", anchor="w", font=_LABEL_FONT
+        )
+
+    def show(
+        self,
+        entities: Sequence[DetectedEntity],
+        window_rect: tuple[int, int, int, int] | None,
+    ) -> None:
+        """Draw detection boxes and show the overlay.
+
+        Args:
+            entities: List of DetectedEntity from YOLO detection
+            window_rect: Game window (left, top, width, height) in screen coords
+        """
+        if not window_rect:
+            return
+
+        left, top, width, height = window_rect
+
+        # Reposition overlay to match game window
+        self._root.geometry(f"{width}x{height}+{left}+{top}")
+
+        # Clear previous drawings
+        self._canvas.delete("all")
+
+        # Draw each entity
+        for entity in entities:
+            label = f"{entity.class_name} {entity.confidence:.0%}"
+            self._draw_labeled_box(entity.bbox, _get_color(entity.class_name), label)
+
+        # Resource-bar OCR reading regions (debug) — distinct color, name-labeled,
+        # drawn on top of entity boxes. Coordinates are screenshot-relative (the same
+        # space as entity bboxes), so no translation is needed.
+        for name, rect in self._ocr_fields.items():
+            self._draw_labeled_box(rect, _OCR_FIELD_COLOR, name)
+
+        # Show overlay
+        if not self._visible:
+            self._root.deiconify()
+            self._visible = True
+
+        self._root.update_idletasks()
+        self._root.update()
+
+    def close(self) -> None:
+        """Destroy the overlay window."""
+        with contextlib.suppress(Exception):
+            self._root.destroy()
