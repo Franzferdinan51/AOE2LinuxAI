@@ -1,0 +1,34 @@
+name: food_emergency_mill_exists_farms_only
+description: |
+  Food crisis WITH a Mill already standing: no sheep, no berry_bush, food=26,
+  and a `mill` is in the Detected Entities list. The agent must build farms
+  ONLY (building_key=a) — never a second Mill.
+
+inputs:
+  age: Dark Age
+  resources:
+    food: 26
+    wood: 350
+    gold: 100
+    stone: 200
+    population: "14/20"
+  detected_entities:
+    - {class: town_center,  x: 1500, y: 800, confidence: 0.95}
+    - {class: mill,         x: 1180, y: 720, confidence: 0.91}
+    - {class: farm,         x: 1250, y: 760, confidence: 0.88}
+    - {class: villager,     x: 1450, y: 850, confidence: 0.88}
+    - {class: villager,     x: 1500, y: 870, confidence: 0.92}
+    - {class: villager,     x: 1480, y: 860, confidence: 0.90}
+    - {class: lumber_camp,  x: 1000, y: 700, confidence: 0.89}
+  goals:
+    - {name: "Build Mill + farms", type: local, metric: food, target: 200, priority: 10}
+  memories: []
+  recent_turns: []
+
+screenshot: null
+
+expected:
+  count_at_least:
+    - {type: build, building_key: a, n: 1}
+  count_at_most:
+    - {type: build, building_key: w, n: 0}
