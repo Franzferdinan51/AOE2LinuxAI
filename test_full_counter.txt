@@ -1,0 +1,8 @@
+archer
+  win: infantry, spearman
+  loss: skirmisher, mangonel, cavalry, eagle_warrior
+  note: Kite infantry; vulnerable to high pierce armor units
+cavalry
+  win: archer, siege, monk, skirmisher
+  loss: spearman, camel, monk_large_groups
+  note: Mobile; raid economy; avoid pike/camel masses
