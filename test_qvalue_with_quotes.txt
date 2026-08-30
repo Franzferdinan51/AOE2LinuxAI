@@ -1,0 +1,2 @@
+key: hello world
+key2: foo bar baz quux very long string here that might be truncated
