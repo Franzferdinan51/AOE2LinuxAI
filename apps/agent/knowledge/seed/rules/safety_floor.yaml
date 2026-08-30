@@ -1,0 +1,22 @@
+# Reactive safety floor — these rules never overrule the strategist but always
+# fire when their trigger holds, regardless of age or alarm.
+#
+# Used by the policy tier to keep the LLM-loop fallback productive: even when
+# the strategist is down or off, the bot stays alive (food banking, house
+# raising, basic economy).
+
+- id: hard_stop_double_build
+  weight: 200
+  when: 'building_sightings.get("mill", 0) >= 3 and wood < 1000'
+  then:
+    - type: wait
+      ms: 200
+      intent: Avoid the 14-outpost loop while mills are misdetected
+
+- id: hard_stop_no_house_when_wood_bankrolls_farm
+  weight: 180
+  when: 'wood < 60 and food < 50 and population >= population_cap'
+  then:
+    - type: press
+      key: h
+      intent: TC focus so the next turn's action isn't dropped

@@ -1,0 +1,6 @@
+date	game_id	score	food	wood	gold	stone	age	turns	outcome
+2026-04-20	game_001	0.45	820	200	0	0	Dark Age	15	stuck_pop_cap
+2026-04-21	game_002	0.51	2000	500	200	0	Feudal Age	28	castle_gate_blocked
+2026-04-22	game_003	0.62	3000	1000	800	200	Castle Age	45	strong_military
+2026-04-23	game_004	0.38	600	150	0	0	Dark Age	8	early_stuck
+2026-04-24	game_005	0.55	2500	800	400	100	Feudal Age	35	fast_feudal

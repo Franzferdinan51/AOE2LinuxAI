@@ -1,0 +1,26 @@
+- id: build_mill_for_berries
+  weight: 80
+  when: '"mill" not in buildings_seen and wood >= 100'
+  bank_wood: false
+  then:
+    - type: build
+      menu: q
+      building_key: w
+      intent: Mill unlocks farms (a Feudal-Age prerequisite)
+
+- id: two_feudal_buildings_for_castle_gate
+  weight: 90
+  when: 'len(buildings_seen & {"barracks", "archery_range", "stable", "blacksmith", "market"}) < 2 and wood >= 175'
+  then:
+    - type: build
+      menu: w
+      building_key: q
+      intent: Second Feudal-Age building for the Castle Age gate
+
+- id: castle_age_when_two_feudal_buildings
+  weight: 95
+  when: 'age == "Feudal Age" and food >= 800 and gold >= 200 and len(buildings_seen & {"barracks", "archery_range", "stable", "blacksmith", "market"}) >= 2'
+  then:
+    - type: research
+      tech: castle_age
+      intent: Castle Age now that two Feudal buildings stand

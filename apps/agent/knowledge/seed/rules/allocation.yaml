@@ -1,0 +1,8 @@
+# Per-age villager allocation targets — used by the reactive tier when the
+# strategist hasn't responded yet. `for_state` in policy/allocation.py maps
+# these to Allocation dataclasses; the LLM never sees this file directly.
+defaults:
+  dark_age: {food: 3, wood: 2, gold: 0, stone: 0}
+  feudal_age: {food: 2, wood: 2, gold: 1, stone: 0}
+  castle_age: {food: 2, wood: 1, gold: 2, stone: 1}
+  imperial_age: {food: 1, wood: 1, gold: 2, stone: 1}

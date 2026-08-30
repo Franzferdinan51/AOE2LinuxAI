@@ -1,0 +1,24 @@
+- id: build_house_when_capped
+  weight: 100
+  when: 'population_cap > 0 and population_cap - population <= 4 and wood >= 25'
+  then:
+    - type: build
+      building_key: q
+      intent: Raise pop cap to keep villager queue moving
+  cost: {wood: 25}
+
+- id: queue_villager_until_30
+  weight: 90
+  when: 'age == "Dark Age" and villagers_ordered < 30 and food >= 50'
+  then:
+    - type: queue_villager
+      intent: Dark Age villager target is 30
+
+- id: age_up_feudal_at_500_food
+  weight: 95
+  when: 'age == "Dark Age" and food >= 500 and wood >= 200'
+  bank_wood: false
+  then:
+    - type: research
+      tech: castle_age
+      intent: Advance to Feudal Age
