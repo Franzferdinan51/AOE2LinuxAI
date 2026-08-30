@@ -1,0 +1,44 @@
+[project]
+name = "gameplay-agent"
+version = "0.1.0"
+description = "AoE2 gameplay agent — Linux-native input backends, LM Studio / OpenAI / Anthropic / OpenCode Zen wires."
+requires-python = ">=3.11"
+dependencies = [
+    "core",
+    "detection",
+    "evaluation",
+    "data",
+    "anthropic>=0.84.0",
+    "openai>=1.60.0",
+    "mss>=9.0.0",
+    "numpy>=1.24.0",
+    "Pillow>=10.0.0",
+    "pydantic>=2.5.0",
+    "pyyaml>=6.0",
+    "rapidocr-onnxruntime>=1.4.0",
+    "structlog>=24.1.0",
+]
+
+[project.optional-dependencies]
+windows = [
+    "pyautogui>=0.9.54",
+    "pygetwindow>=0.0.9",
+]
+
+[project.scripts]
+aoe2-agent = "gameplay_agent.main:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "gameplay_agent" = "src" }
+packages = [
+    "gameplay_agent",
+    "gameplay_agent.io",
+    "gameplay_agent.providers",
+]
+
+[tool.setuptools.package-data]
+gameplay_agent = ["scenarios/**/*.yaml", "prompts/**/*.md"]
