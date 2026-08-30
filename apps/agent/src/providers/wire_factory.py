@@ -22,12 +22,10 @@ def make_wire(
     match name:
         case "anthropic":
             from .wire_anthropic import AnthropicWire
-
             return AnthropicWire(model=model, api_key=api_key or None, max_retries=max_retries)
 
         case "openai" | "zen":
             from .wire_openai import OpenAIWire
-
             return OpenAIWire(
                 model=model,
                 api_key=api_key or None,
@@ -37,7 +35,6 @@ def make_wire(
 
         case "lmstudio":
             from .wire_lmstudio import LMStudioWire
-
             return LMStudioWire(
                 model=model,
                 api_key=api_key or None,
@@ -58,12 +55,10 @@ def make_text_completer(
     match name:
         case "anthropic":
             from .text_wire import AnthropicTextCompleter
-
             return AnthropicTextCompleter(model=model, api_key=api_key or None)
 
         case "openai" | "zen":
             from .text_wire import OpenAITextCompleter
-
             return OpenAITextCompleter(
                 model=model,
                 api_key=api_key or None,
@@ -73,7 +68,6 @@ def make_text_completer(
         case "lmstudio":
             from .text_wire import OpenAITextCompleter
             from .wire_lmstudio import LMSTUDIO_DEFAULT_BASE_URL
-
             return OpenAITextCompleter(
                 model=model,
                 api_key=api_key or "lm-studio",
